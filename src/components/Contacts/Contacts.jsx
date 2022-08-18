@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import { useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import { getFilter } from 'redux/contactsSlice';
 import { useGetContactsQuery } from 'redux/contactsSlice';
 import { Box } from '../Box';
@@ -20,10 +22,17 @@ export const Contacts = () => {
   };
 
   return (
-    <Box as="ul" mt={4} width="100%">
-      {filterItems(contacts, filter).map(({ id, name, phone }) => {
-        return <ContactListItem key={id} id={id} name={name} number={phone} />;
-      })}
-    </Box>
+    <>
+      <Box as="ul" mt={4} width="100%">
+        {filterItems(contacts, filter).map(({ id, name, phone }) => {
+          return (
+            <ContactListItem key={id} id={id} name={name} number={phone} />
+          );
+        })}
+      </Box>
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
+    </>
   );
 };

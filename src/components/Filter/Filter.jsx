@@ -1,5 +1,7 @@
 import propTypes from 'prop-types';
+import { Suspense } from 'react';
 import { useDispatch } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import { filter } from 'redux/contactsSlice';
 import { FilterLabel, FilterInput, FilterForm } from './Filter.styled';
 
@@ -21,6 +23,9 @@ export const Filter = ({ title, value }) => {
           />
         </FilterLabel>
       </FilterForm>
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

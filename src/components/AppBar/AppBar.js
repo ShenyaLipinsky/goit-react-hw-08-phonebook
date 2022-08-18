@@ -1,4 +1,6 @@
 import { Box } from 'components/Box';
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 import { NavLink } from './AppBar.styled';
 
 export const AppBar = () => {
@@ -12,11 +14,12 @@ export const AppBar = () => {
         p={3}
       >
         <li>
-          <NavLink to="/contacts">Contacts</NavLink>
+          <NavLink to="/">Add Contacts</NavLink>
+          <NavLink to="contacts">Contacts</NavLink>
         </li>
         <li>
-          <NavLink to="/login">LogIn</NavLink>
-          <NavLink to="/register">Registration</NavLink>
+          <NavLink to="login">LogIn</NavLink>
+          <NavLink to="register">Registration</NavLink>
         </li>
         <Box
           as="li"
@@ -29,6 +32,9 @@ export const AppBar = () => {
           <button>LogOut</button>
         </Box>
       </Box>
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </Box>
   );
 };
