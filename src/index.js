@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import '../node_modules/modern-normalize/modern-normalize.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { App } from 'components/App';
 import { ThemeProvider } from 'styled-components';

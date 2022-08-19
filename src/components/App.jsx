@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { Box } from './Box';
 import { ContactForm } from './Phonebook/Phonebook';
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { getFilter } from 'redux/contactsSlice';
 import { useGetContactsQuery } from 'redux/contactsSlice';
 import { AppBar } from './AppBar/AppBar';
-import { Suspense } from 'react';
+import { LogIn } from './LogIn/LogIn';
 
 export const App = () => {
   const { data: contacts } = useGetContactsQuery();
@@ -67,6 +67,7 @@ export const App = () => {
               </Box>
             }
           />
+          <Route path="login" element={<LogIn />} />
         </Route>
       )}
     </Routes>
