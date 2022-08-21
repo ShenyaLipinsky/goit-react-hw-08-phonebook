@@ -9,6 +9,7 @@ import { getFilter } from 'redux/contactsSlice';
 import { useGetContactsQuery } from 'redux/contactsSlice';
 import { AppBar } from './AppBar/AppBar';
 import { LogIn } from './LogIn/LogIn';
+import { Registration } from './Registration/Registration';
 
 export const App = () => {
   const { data: contacts } = useGetContactsQuery();
@@ -68,6 +69,7 @@ export const App = () => {
             }
           />
           <Route path="login" element={<LogIn />} />
+          <Route path="register" element={<Registration />} />
         </Route>
       )}
     </Routes>
