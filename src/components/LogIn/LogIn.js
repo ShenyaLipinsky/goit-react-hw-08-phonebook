@@ -17,9 +17,6 @@ export const LogIn = () => {
   //name: 'Eugene';
   //password: '123456789';
 
-  const nameRegExp =
-    /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
-
   const validationSchema = yup.object().shape({
     email: yup
       .string()

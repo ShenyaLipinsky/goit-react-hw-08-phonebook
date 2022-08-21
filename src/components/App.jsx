@@ -14,7 +14,7 @@ import { Registration } from './Registration/Registration';
 export const App = () => {
   const { data: contacts } = useGetContactsQuery();
   let filter = useSelector(getFilter);
-  let loggedIn = useSelector(authSelectors.getIsLoggedIn);
+  // let loggedIn = useSelector(authSelectors.getIsLoggedIn);
   let userName = useSelector(authSelectors.getUserName);
   console.log(userName);
   const location = useLocation();
