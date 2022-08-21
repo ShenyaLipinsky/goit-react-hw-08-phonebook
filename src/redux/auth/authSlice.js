@@ -15,19 +15,35 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   extraReducers: {
-    [authOperations.register.fulfilled](state, action) {},
+    [authOperations.register.fulfilled](state, action) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+    },
+    [authOperations.logIn.fulfilled](state, action) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+    },
+    [authOperations.logOut.fulfilled](state) {
+      state.user = {
+        name: null,
+        email: null,
+      };
+      state.token = null;
+      state.isLoggedIn = false;
+    },
   },
 });
-
-export default authSlice.reducer;
+export default authSlice;
 
 //------------------------------ SELECTORS ------------------------------//
 
 const getIsLoggedIn = state => state.auth.isLoggedIn;
-const getIUserName = state => state.auth.user.name;
+const getUserName = state => state.auth.user.name;
 
 export const authSelectors = {
-  getIUserName,
+  getUserName,
   getIsLoggedIn,
 };
 //------------------------------ OPERATIONS ------------------------------//

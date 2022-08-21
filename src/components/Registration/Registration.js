@@ -62,8 +62,6 @@ export const Registration = () => {
         handleSubmit,
         isSubmitting,
       }) => {
-        console.log(values);
-
         return (
           <Form name="registration" noValidate onSubmit={handleSubmit}>
             <Form.Group className="mb-5" controlId="formBasicName">
