@@ -10,7 +10,6 @@ export const Contacts = () => {
   let filter = useSelector(getFilter);
 
   const { data: contacts } = useGetContactsQuery();
-
   const filterItems = (arr, query) => {
     if (arr.length !== 0 || undefined) {
       let newArray = arr.filter(
@@ -18,7 +17,7 @@ export const Contacts = () => {
       );
       return newArray;
     }
-    return;
+    return arr;
   };
 
   return (

@@ -1,4 +1,6 @@
 import { authOperations } from './authOperations';
+import storage from 'redux-persist/lib/storage';
+import persistReducer from 'redux-persist/es/persistReducer';
 
 const { createSlice } = require('@reduxjs/toolkit');
 
@@ -36,6 +38,13 @@ const authSlice = createSlice({
   },
 });
 export default authSlice;
+
+const persistConfig = {
+  key: 'authorization',
+  storage,
+};
+
+export const authReducer = persistReducer(persistConfig, authSlice.reducer);
 
 //------------------------------ SELECTORS ------------------------------//
 
