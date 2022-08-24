@@ -8,7 +8,6 @@ import { ErrorMessageBox, InputStyled } from './LogIn.styled';
 
 const LogIn = () => {
   const dispatch = useDispatch();
-
   const handleSubmitForm = ({ email, password }) => {
     dispatch(authOperations.logIn({ email, password }));
   };

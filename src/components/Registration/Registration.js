@@ -25,7 +25,7 @@ const Registration = () => {
       .string()
       .matches(
         nameRegExp,
-        `*Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan'`
+        `*Name may contain only letters, apostrophe, dash and spaces.`
       )
       .min(2, '*Name must have more than 2 characters')
       .required('*Name is required'),

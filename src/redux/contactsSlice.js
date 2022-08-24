@@ -1,5 +1,6 @@
 import { createReducer, createSlice } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
 
 const initialState = {
   filter: '',
@@ -18,24 +19,29 @@ export const { filter } = contactsSlice.actions;
 export const filterReducer = createReducer('', {
   [filter.type]: (_state, { payload }) => payload,
 });
-
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://connections-api.herokuapp.com/',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
+    prepareHeaders: async (headers, { getState }) => {
+      console.log(axios.defaults.headers.authorization);
+      let token = await getState().auth.token;
+      if (token !== axios.defaults.headers.authorization) {
+        headers.set(
+          'authorization',
+          // axios.defaults.headers.authorization
+          token
+        );
       }
       return headers;
     },
   }),
-  tagTypes: ['Contacts'],
+  tagTypes: ['Contacts', 'token'],
   endpoints: builder => ({
     getContacts: builder.query({
       query: () => `/contacts`,
-      providesTags: ['Contacts'],
+      method: 'GET',
+      providesTags: ['Contacts', 'token'],
     }),
     addContact: builder.mutation({
       query: values => ({

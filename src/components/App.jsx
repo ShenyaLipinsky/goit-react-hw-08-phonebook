@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate, Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authSelectors } from '../redux/auth/authSlice';
 import { authOperations } from 'redux/auth/authOperations';
@@ -10,7 +10,7 @@ import { Box } from './Box';
 // import { LogIn } from './LogIn/LogIn';
 // import { Registration } from './Registration/Registration';
 // import { Filter } from './Filter/Filter';
-// import { Contacts } from './Contacts/Contacts';
+// import Contacts from './Contacts/Contacts';
 
 const ContactForm = lazy(() => import('./Phonebook/Phonebook'));
 const LogIn = lazy(() => import('./LogIn/LogIn'));
@@ -20,13 +20,13 @@ const Contacts = lazy(() => import('./Contacts/Contacts'));
 
 export const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   let filter = useSelector(getFilter);
   let loggedIn = useSelector(authSelectors.getIsLoggedIn);
   useEffect(() => {
     dispatch(authOperations.fetchCurrentUser());
   }, [dispatch]);
 
-  const location = useLocation();
   return (
     <Routes>
       {location.pathname === '/' ? (
@@ -80,6 +80,7 @@ export const App = () => {
                   <h2>Contacts</h2>
                   <Filter title="Find contacts by name" value={filter} />
                   <Suspense fallback="....Loading">
+                    <Outlet />
                     <Contacts />
                   </Suspense>
                 </Box>

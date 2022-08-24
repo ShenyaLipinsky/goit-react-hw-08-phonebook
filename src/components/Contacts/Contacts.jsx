@@ -8,8 +8,8 @@ import { ContactListItem } from './ContactsItem';
 
 const Contacts = () => {
   let filter = useSelector(getFilter);
-
   const { data: contacts } = useGetContactsQuery();
+
   const filterItems = (arr, query) => {
     if (arr === undefined || arr.length === 0) {
       return [];

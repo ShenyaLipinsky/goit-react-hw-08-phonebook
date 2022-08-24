@@ -14,5 +14,6 @@ export const ErrorMessageBox = styled.div`
     height: 1em;
     position: absolute;
     font-size: 0.8em;
+    width: 250px;
   }
 `;
