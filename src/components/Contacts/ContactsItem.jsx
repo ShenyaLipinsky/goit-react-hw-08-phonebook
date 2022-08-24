@@ -5,7 +5,7 @@ export const ContactListItem = ({ id, name, number }) => {
   const [removeContact, { isLoading }] = useRemoveContactMutation();
   return (
     <ContactItem>
-      <p>{name}:</p>
+      <p>{name}</p>
       <p>{number}</p>
       <ContactBtn
         id={id}

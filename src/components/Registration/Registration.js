@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth/authOperations';
 import { ErrorMessageBox, InputStyled } from './Registration.styled';
 
-export const Registration = () => {
+const Registration = () => {
   const dispatch = useDispatch();
 
   const handleSubmitForm = ({ name, email, password }) => {
@@ -127,3 +127,5 @@ export const Registration = () => {
     </Formik>
   );
 };
+
+export default Registration;

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth/authOperations';
 import { ErrorMessageBox, InputStyled } from './LogIn.styled';
 
-export const LogIn = () => {
+const LogIn = () => {
   const dispatch = useDispatch();
 
   const handleSubmitForm = ({ email, password }) => {
@@ -97,3 +97,5 @@ export const LogIn = () => {
     </Formik>
   );
 };
+
+export default LogIn;

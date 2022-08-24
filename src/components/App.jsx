@@ -1,22 +1,31 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { authSelectors } from '../redux/auth/authSlice';
-import { Box } from './Box';
-import { ContactForm } from './Phonebook/Phonebook';
-import { Contacts } from './Contacts/Contacts';
-import { Filter } from './Filter/Filter';
-import { useSelector } from 'react-redux';
+import { authOperations } from 'redux/auth/authOperations';
 import { getFilter } from 'redux/contactsSlice';
-import { useGetContactsQuery } from 'redux/contactsSlice';
 import { AppBar } from './AppBar/AppBar';
-import { LogIn } from './LogIn/LogIn';
-import { Registration } from './Registration/Registration';
+import { Box } from './Box';
+// import { ContactForm } from './Phonebook/Phonebook';
+// import { LogIn } from './LogIn/LogIn';
+// import { Registration } from './Registration/Registration';
+// import { Filter } from './Filter/Filter';
+// import { Contacts } from './Contacts/Contacts';
+
+const ContactForm = lazy(() => import('./Phonebook/Phonebook'));
+const LogIn = lazy(() => import('./LogIn/LogIn'));
+const Registration = lazy(() => import('./Registration/Registration'));
+const Filter = lazy(() => import('./Filter/Filter'));
+const Contacts = lazy(() => import('./Contacts/Contacts'));
 
 export const App = () => {
-  const { data: contacts } = useGetContactsQuery();
+  const dispatch = useDispatch();
   let filter = useSelector(getFilter);
-  // let loggedIn = useSelector(authSelectors.getIsLoggedIn);
-  let userName = useSelector(authSelectors.getUserName);
-  console.log(userName);
+  let loggedIn = useSelector(authSelectors.getIsLoggedIn);
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
+
   const location = useLocation();
   return (
     <Routes>
@@ -24,60 +33,108 @@ export const App = () => {
         <Route
           path="/"
           element={
-            <>
-              <AppBar />
-              <Box
-                mt={4}
-                mx={'auto'}
-                px={4}
-                py={5}
-                display={'flex'}
-                flexDirection="column"
-                alignItems="center"
-                width={3}
-                borderRadius={'large'}
-                bg={'secondary'}
-              >
-                <h1>PhoneBook</h1>
-                <ContactForm />
-              </Box>
-            </>
+            loggedIn ? (
+              <>
+                <AppBar />
+                <Box
+                  mt={4}
+                  mx={'auto'}
+                  px={4}
+                  py={5}
+                  display={'flex'}
+                  flexDirection="column"
+                  alignItems="center"
+                  width={3}
+                  borderRadius={'large'}
+                  bg={'secondary'}
+                >
+                  <Suspense fallback="....Loading">
+                    <h1>PhoneBook</h1>
+                    <ContactForm />
+                  </Suspense>
+                </Box>
+              </>
+            ) : (
+              <Navigate to="login" replace={true} />
+            )
           }
         />
       ) : (
         <Route path="/" element={<AppBar />}>
-          {/* {loggedIn ? ( */}
           <Route
             path="contacts"
             element={
-              <Box
-                mt={4}
-                mx={'auto'}
-                px={4}
-                py={5}
-                display={'flex'}
-                flexDirection="column"
-                alignItems="center"
-                width={3}
-                borderRadius={'large'}
-                bg={'secondary'}
-              >
-                {contacts && (
-                  <>
-                    <h2>Contacts</h2>
-                    <Filter title="Find contacts by name" value={filter} />
+              loggedIn ? (
+                <Box
+                  mt={4}
+                  mx={'auto'}
+                  px={4}
+                  py={5}
+                  display={'flex'}
+                  flexDirection="column"
+                  alignItems="center"
+                  width={3}
+                  borderRadius={'large'}
+                  bg={'secondary'}
+                >
+                  <h2>Contacts</h2>
+                  <Filter title="Find contacts by name" value={filter} />
+                  <Suspense fallback="....Loading">
                     <Contacts />
-                  </>
-                )}
-              </Box>
+                  </Suspense>
+                </Box>
+              ) : (
+                <Navigate to="/login" replace={true} />
+              )
             }
           />
-          {/* ) : ( */}
-          <>
-            <Route path="login" element={<LogIn />} />
-            <Route path="register" element={<Registration />} />
-          </>
-          {/* )} */}
+
+          <Route
+            path="login"
+            element={
+              loggedIn ? (
+                <Navigate to="/contacts" replace={true} />
+              ) : (
+                <Box
+                  mt={4}
+                  mx={'auto'}
+                  px={4}
+                  py={5}
+                  display={'flex'}
+                  flexDirection="column"
+                  alignItems="center"
+                  width={3}
+                  borderRadius={'large'}
+                  bg={'secondary'}
+                >
+                  <LogIn />
+                </Box>
+              )
+            }
+          />
+          <Route
+            path="register"
+            element={
+              loggedIn ? (
+                <Navigate to="/contacts" replace={true} />
+              ) : (
+                <Box
+                  mt={4}
+                  mx={'auto'}
+                  px={4}
+                  py={5}
+                  display={'flex'}
+                  flexDirection="column"
+                  alignItems="center"
+                  width={3}
+                  borderRadius={'large'}
+                  bg={'secondary'}
+                >
+                  <Registration />
+                </Box>
+              )
+            }
+          />
         </Route>
       )}
     </Routes>

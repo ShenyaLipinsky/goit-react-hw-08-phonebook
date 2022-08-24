@@ -2,15 +2,15 @@ export const theme = {
   colors: {
     black: '#000',
     white: '#fff',
-    red: '#ee9797',
-    error: '#ff0000',
+    red: '#ff0000',
     green: '#008000',
     text: '#2a2a2a',
     secondaryText: '#8b8b8b',
     background: '#696969',
     primary: '#f5f5f5',
     secondary: '#e0f2f4',
-    accent: '#64d1e1',
+    accent: '#3f51b5',
+    hovered: '#303f9f',
     muted: '#f6f6f6',
   },
 

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { filter } from 'redux/contactsSlice';
 import { FilterLabel, FilterInput, FilterForm } from './Filter.styled';
 
-export const Filter = ({ title, value }) => {
+const Filter = ({ title, value }) => {
   const dispatch = useDispatch();
 
   return (
@@ -34,3 +34,5 @@ Filter.propTypes = {
   title: propTypes.string,
   value: propTypes.string.isRequired,
 };
+
+export default Filter;

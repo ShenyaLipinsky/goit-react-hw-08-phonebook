@@ -6,18 +6,18 @@ import { useGetContactsQuery } from 'redux/contactsSlice';
 import { Box } from '../Box';
 import { ContactListItem } from './ContactsItem';
 
-export const Contacts = () => {
+const Contacts = () => {
   let filter = useSelector(getFilter);
 
   const { data: contacts } = useGetContactsQuery();
   const filterItems = (arr, query) => {
-    if (arr.length !== 0 || undefined) {
-      let newArray = arr.filter(
-        el => el.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      );
-      return newArray;
+    if (arr === undefined || arr.length === 0) {
+      return [];
     }
-    return arr;
+    let newArray = arr.filter(
+      el => el.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
+    return newArray;
   };
 
   return (
@@ -35,3 +35,4 @@ export const Contacts = () => {
     </>
   );
 };
+export default Contacts;

@@ -9,12 +9,14 @@ import {
   useAddContactMutation,
   useGetContactsQuery,
 } from 'redux/contactsSlice';
+import { useNavigate } from 'react-router-dom';
 
-export const ContactForm = () => {
+const ContactForm = () => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const { data: contacts } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
+  const navigate = useNavigate();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -43,9 +45,10 @@ export const ContactForm = () => {
       try {
         await addContact({
           name: name,
-          phone: phone,
+          number: phone,
         });
         reset();
+        navigate('/contacts');
       } catch (error) {
         console.log(error);
       }
@@ -87,3 +90,5 @@ export const ContactForm = () => {
     </PhonebookForm>
   );
 };
+
+export default ContactForm;

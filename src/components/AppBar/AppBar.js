@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { authOperations } from 'redux/auth/authOperations';
 import { authSelectors } from 'redux/auth/authSlice';
-import { NavLink } from './AppBar.styled';
+import { GreetingMessage, Link, LogOutBtn } from './AppBar.styled';
 
 export const AppBar = () => {
   let loggedIn = useSelector(authSelectors.getIsLoggedIn);
@@ -12,45 +12,49 @@ export const AppBar = () => {
   const dispatch = useDispatch();
   return (
     <Box as="nav">
-      <Box
-        as="ul"
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={3}
-      >
-        {loggedIn ? (
-          <>
-            <li>
-              <NavLink to="/">Add Contacts</NavLink>
-              <NavLink to="contacts">Contacts</NavLink>
-            </li>
-            <Box
-              as="li"
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              width="240px"
+      {loggedIn ? (
+        <Box
+          as="ul"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          p={3}
+        >
+          <li>
+            <Link to="/">Add Contacts</Link>
+            <Link to="contacts">Contacts</Link>
+          </li>
+          <Box
+            as="li"
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            width="240px"
+          >
+            <GreetingMessage>Hello {userName}</GreetingMessage>
+            <LogOutBtn
+              onClick={() => {
+                dispatch(authOperations.logOut());
+              }}
             >
-              <p>Hello {userName}</p>
-              <button
-                onClick={() => {
-                  dispatch(authOperations.logOut());
-                }}
-              >
-                LogOut
-              </button>
-            </Box>
-          </>
-        ) : (
-          <>
-            <li>
-              <NavLink to="login">LogIn</NavLink>
-              <NavLink to="register">Registration</NavLink>
-            </li>
-          </>
-        )}
-      </Box>
+              LogOut
+            </LogOutBtn>
+          </Box>
+        </Box>
+      ) : (
+        <Box
+          as="ul"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          p={3}
+        >
+          <Box as="li" display="flex">
+            <Link to="login">LogIn</Link>
+            <Link to="register">Registration</Link>
+          </Box>
+        </Box>
+      )}
       <Suspense fallback={null}>
         <Outlet />
       </Suspense>
