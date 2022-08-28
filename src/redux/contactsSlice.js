@@ -21,10 +21,12 @@ export const filterReducer = createReducer('', {
 });
 export const contactsApi = createApi({
   reducerPath: 'contactsApi',
+  // add refetch, because after logout current user and login on other user, contacts does'nt refetching
+  // refetchOnMountOrArgChange: true,
+  // --------------------------------------------------------------------------------------------------
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://connections-api.herokuapp.com/',
     prepareHeaders: async (headers, { getState }) => {
-      console.log(axios.defaults.headers.authorization);
       let token = await getState().auth.token;
       if (token !== axios.defaults.headers.authorization) {
         headers.set(
@@ -36,12 +38,13 @@ export const contactsApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Contacts', 'token'],
+
+  tagTypes: ['Contacts', 'authorization'],
   endpoints: builder => ({
     getContacts: builder.query({
       query: () => `/contacts`,
       method: 'GET',
-      providesTags: ['Contacts', 'token'],
+      providesTags: ['Contacts', 'authorization'],
     }),
     addContact: builder.mutation({
       query: values => ({
@@ -60,7 +63,6 @@ export const contactsApi = createApi({
     }),
   }),
 });
-
 export const {
   useGetContactsQuery,
   useAddContactMutation,

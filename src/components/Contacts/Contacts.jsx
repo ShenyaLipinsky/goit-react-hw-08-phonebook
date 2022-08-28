@@ -8,6 +8,7 @@ import { ContactListItem } from './ContactsItem';
 
 const Contacts = () => {
   let filter = useSelector(getFilter);
+
   const { data: contacts } = useGetContactsQuery();
 
   const filterItems = (arr, query) => {
@@ -23,9 +24,9 @@ const Contacts = () => {
   return (
     <>
       <Box as="ul" mt={4} width="100%">
-        {filterItems(contacts, filter).map(({ id, name, phone }) => {
+        {filterItems(contacts, filter).map(({ id, name, number }) => {
           return (
-            <ContactListItem key={id} id={id} name={name} number={phone} />
+            <ContactListItem key={id} id={id} name={name} number={number} />
           );
         })}
       </Box>

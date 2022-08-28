@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { authOperations } from 'redux/auth/authOperations';
 import { authSelectors } from 'redux/auth/authSlice';
 import { GreetingMessage, Link, LogOutBtn } from './AppBar.styled';
+import { contactsApi } from 'redux/contactsSlice';
 
 export const AppBar = () => {
   let loggedIn = useSelector(authSelectors.getIsLoggedIn);
@@ -34,6 +35,7 @@ export const AppBar = () => {
             <GreetingMessage>Hello {userName}</GreetingMessage>
             <LogOutBtn
               onClick={() => {
+                dispatch(contactsApi.util.resetApiState());
                 dispatch(authOperations.logOut());
               }}
             >

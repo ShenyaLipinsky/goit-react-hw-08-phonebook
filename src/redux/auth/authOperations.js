@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com/';
 
-const notiflixOptions = Notiflix.Notify.init({
+export const notiflixOptions = Notiflix.Notify.init({
   width: '400px',
   position: 'top-right',
   distance: '50px',
@@ -50,8 +50,12 @@ const logIn = createAsyncThunk('auth/login', async (credentials, thunkApi) => {
 
     return data;
   } catch (error) {
-    // console.log(error.message);
-    Notiflix.Notify.failure(`${error.message}`, notiflixOptions);
+    console.log(error);
+    if (error.response.status === 400) {
+      Notiflix.Notify.failure(`Invalid user data`, notiflixOptions);
+    } else {
+      Notiflix.Notify.failure(`${error.message}`, notiflixOptions);
+    }
     return thunkApi.rejectWithValue();
   }
 });
@@ -72,10 +76,10 @@ const fetchCurrentUser = createAsyncThunk(
     }
   }
 );
+
 const logOut = createAsyncThunk('auth/logout', async () => {
   try {
     await axios.post('users/logout');
-
     token.unset();
     return;
   } catch (error) {
